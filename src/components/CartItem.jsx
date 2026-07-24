@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
-import {
-  increaseQuantity,
-  decreaseQuantity,
-  removeItem,
-} from "../redux/CartSlice";
+import { updateQuantity, removeItem } from "../redux/CartSlice";
 
 function CartItem() {
   const dispatch = useDispatch();
@@ -79,8 +75,14 @@ function CartItem() {
                         <button
                           type="button"
                           onClick={() =>
-                            dispatch(decreaseQuantity(item.id))
+                            dispatch(
+                              updateQuantity({
+                                id: item.id,
+                                quantity: item.quantity - 1,
+                              })
+                            )
                           }
+                          disabled={item.quantity === 1}
                           aria-label={`Decrease quantity of ${item.name}`}
                         >
                           −
@@ -91,7 +93,12 @@ function CartItem() {
                         <button
                           type="button"
                           onClick={() =>
-                            dispatch(increaseQuantity(item.id))
+                            dispatch(
+                              updateQuantity({
+                                id: item.id,
+                                quantity: item.quantity + 1,
+                              })
+                            )
                           }
                           aria-label={`Increase quantity of ${item.name}`}
                         >
